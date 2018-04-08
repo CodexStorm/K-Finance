@@ -1,0 +1,226 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/rlAssetDetails"
+    android:background="#eeeeee"
+    >
+
+    <android.support.design.widget.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/mainActivityBar"
+            app:layout_scrollFlags="scroll|enterAlways"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            >
+
+            <TextView
+                android:id="@+id/title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Bill Details"
+                android:textSize="40dp"
+                android:textColor="#fff"
+                android:textAlignment="center"/>
+        </android.support.v7.widget.Toolbar>
+
+    </android.support.design.widget.AppBarLayout>
+    <android.support.v4.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="60dp">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="510dp">
+
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/rlDetails"
+                android:layout_marginTop="80dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginLeft="20dp"
+                android:background="@drawable/display"
+                >
+                <TextView
+                    android:id="@+id/tvName"
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="20dp"
+                    android:textColor="@android:color/background_dark"
+                    android:textStyle="bold"
+                    android:text="Bill ID  :"
+                    android:textAlignment="textEnd"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true" />
+
+                <TextView
+                    android:id="@+id/tvId"
+                    android:textColor="@android:color/background_dark"
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:layout_alignLeft="@+id/tvName"
+                    android:layout_alignStart="@+id/tvName"
+                    android:layout_below="@+id/tvName"
+                    android:layout_marginTop="20dp"
+                    android:text="Amount  :"
+                    android:textAlignment="textEnd"
+                    android:textStyle="bold"/>
+
+                <TextView
+                    android:id="@+id/tvCategory"
+                    android:textColor="@android:color/background_dark"
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:layout_alignLeft="@+id/tvId"
+                    android:layout_alignStart="@+id/tvId"
+                    android:layout_below="@+id/tvId"
+                    android:layout_marginTop="20dp"
+                    android:text="Reason  :"
+                    android:textAlignment="textEnd"
+                    android:textStyle="bold"/>
+
+                <TextView
+                    android:id="@+id/tvType"
+                    android:textColor="@android:color/background_dark"
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:layout_alignLeft="@+id/tvhAssetMake"
+                    android:layout_alignStart="@+id/tvhAssetMake"
+                    android:layout_below="@id/tvhAssetMake"
+                    android:layout_marginTop="20dp"
+                    android:text="Date Of Bill  :"
+                    android:textAlignment="textEnd"
+                    android:textStyle="bold"/>
+
+                <TextView
+                    android:id="@+id/tvMaker"
+                    android:textColor="@android:color/background_dark"
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:layout_alignLeft="@+id/tvType"
+                    android:layout_alignStart="@+id/tvType"
+                    android:layout_below="@+id/tvType"
+                    android:layout_marginTop="20dp"
+                    android:text="Bill Type  :"
+                    android:textAlignment="textEnd"
+                    android:textStyle="bold"/>
+
+                <TextView
+                    android:id="@+id/tvSpecification"
+                    android:textColor="@android:color/background_dark"
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:layout_alignLeft="@+id/tvMaker"
+                    android:layout_alignStart="@+id/tvMaker"
+                    android:layout_below="@+id/tvMaker"
+                    android:layout_marginTop="20dp"
+                    android:text="Upload Date  :"
+                    android:textAlignment="textEnd"
+                    android:layout_marginBottom="20dp"
+                    android:textStyle="bold"/>
+
+
+
+                <TextView
+                    android:id="@+id/tvBillid"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="12dp"
+                    android:layout_marginStart="12dp"
+                    android:layout_above="@+id/tvId"
+                    android:textColor="#000"
+                    android:layout_toRightOf="@+id/tvSpecification"
+                    android:layout_toEndOf="@+id/tvSpecification" />
+
+                <TextView
+                    android:id="@+id/tvBillAmount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_above="@+id/tvCategory"
+                    android:textColor="#000"
+                    android:layout_alignLeft="@+id/tvBillid"
+                    android:layout_alignStart="@+id/tvBillid" />
+
+                <TextView
+                    android:id="@+id/Reason"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignLeft="@+id/tvBillAmount"
+                    android:textColor="#000"
+                    android:layout_alignStart="@+id/tvBillAmount"
+                    android:layout_alignTop="@+id/tvCategory" />
+
+                <TextView
+                    android:id="@+id/tvdob"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignLeft="@+id/Reason"
+                    android:textColor="#000"
+                    android:layout_alignStart="@+id/Reason"
+                    android:layout_alignTop="@+id/tvType" />
+
+                <TextView
+                    android:id="@+id/tvBilltype"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignLeft="@+id/tvdob"
+                    android:textColor="#000"
+                    android:layout_alignStart="@+id/tvdob"
+                    android:layout_alignTop="@+id/tvMaker"/>
+
+                <TextView
+                    android:id="@+id/tvUplaodDate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignLeft="@+id/tvBilltype"
+                    android:textColor="#000"
+                    android:layout_alignStart="@+id/tvBilltype"
+                    android:layout_alignTop="@+id/tvSpecification" />
+                <TextView
+                    android:id="@+id/tvPaidFor"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@+id/tvhAssetMake"
+                    android:layout_below="@+id/Reason"
+                    android:layout_alignStart="@+id/Reason"
+                    android:layout_marginTop="20dp"/>
+
+                <TextView
+                    android:id="@+id/tvhAssetMake"
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/tvCategory"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginLeft="20dp"
+                    android:text="Paid For  :"
+                    android:textStyle="bold"
+                    android:textColor="#000"
+                    android:textAlignment="textEnd"
+                    />
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/tvViewBill"
+                android:layout_width="130dp"
+                android:layout_height="50dp"
+                android:layout_below="@+id/rlDetails"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="34dp"
+                android:background="@drawable/background_purple_button"
+                android:gravity="center"
+                android:text="View Bill"
+                android:textColor="@color/White"
+                android:textSize="20dp" />
+        </RelativeLayout>
+    </android.support.v4.widget.NestedScrollView>
+
+</RelativeLayout>

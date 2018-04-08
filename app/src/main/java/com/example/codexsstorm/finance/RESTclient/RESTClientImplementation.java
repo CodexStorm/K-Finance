@@ -6,13 +6,19 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.example.codexsstorm.finance.Common.UserDetails;
 import com.example.codexsstorm.finance.Constants.Constants;
+import com.example.codexsstorm.finance.Entity.BillCoverEntity;
+import com.example.codexsstorm.finance.Entity.BillDetailsEntity;
+import com.example.codexsstorm.finance.Entity.BillEntity;
 import com.example.codexsstorm.finance.Entity.LoginEntity;
 import com.example.codexsstorm.finance.Entity.ResponseEntity;
 import com.google.gson.Gson;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.List;
 
 public class RESTClientImplementation {
 
@@ -63,27 +69,29 @@ public class RESTClientImplementation {
         queue.add(jsonBaseRequest);
     }
 
-    public static void billsApi(final LoginEntity loginEntity, final LoginEntity.RestClientInterface restClientInterface, final Context context){
+    public static void billsApi(final BillEntity billEntity, final BillEntity.RestClientInterface restClientInterface, final Context context){
         queue = VolleySingleton.getInstance(context).getRequestQueue();
-        String url = getAbsoluteUrl("/login");
+        String url = getAbsoluteUrl("/outflows");
         JSONObject postParams = new JSONObject();
         try {
-            postParams.put("username",loginEntity.getEmail());
-            postParams.put("password",loginEntity.getPassword());
+            postParams.put("token", UserDetails.getUserToken(context));
+            postParams.put("month",3);
 
         } catch (JSONException e) {
             e.printStackTrace();
         }
+        Log.e("sup",postParams.toString());
         JsonBaseRequest jsonBaseRequest = new JsonBaseRequest(Request.Method.POST, url, postParams, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
-                Log.e("Login Response",response.toString());
+                Log.e("Bill Response",response.toString());
                 Gson gson = new Gson();
                 ResponseEntity responseEntity = gson.fromJson(response.toString(),ResponseEntity.class);
                 try {
+                    JSONObject x = response.getJSONObject("data");
                     int statusCode = response.getJSONObject("code").getInt("statusCode");
                     if(statusCode == 200){
-                        restClientInterface.onLogin(responseEntity.getToken(),response.getJSONObject("data").getInt("role"),200,null);
+                        restClientInterface.onSuccess(x,null);
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -95,7 +103,7 @@ public class RESTClientImplementation {
             public void onErrorResponse(VolleyError error) {
                 Log.e("normal login","error");
 
-                restClientInterface.onLogin("",-1,error.networkResponse.statusCode,new VolleyError());
+               // restClientInterface.onSuccess(x,new VolleyError());
             }
         },30000,0);
         queue.add(jsonBaseRequest);
