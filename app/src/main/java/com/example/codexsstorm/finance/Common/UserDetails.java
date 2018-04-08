@@ -29,4 +29,16 @@ public class UserDetails {
         return  (settings.getString("token",""));
     }
 
+    public static void setUserRole(Context context,int role){
+        SharedPreferences settings = context.getSharedPreferences(Constants.USER_PREFERENCE,0);
+        SharedPreferences.Editor editor = settings.edit();
+        editor.putInt("role",role);
+        editor.apply();
+    }
+    public static String getUserRole(Context context){
+        SharedPreferences settings = context.getSharedPreferences(Constants.USER_PREFERENCE,0);
+        return  (settings.getString("role",""));
+    }
+
+
 }

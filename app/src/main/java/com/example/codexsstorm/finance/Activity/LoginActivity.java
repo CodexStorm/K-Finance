@@ -35,14 +35,14 @@ public class LoginActivity extends AppCompatActivity {
         bLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                /*showProgress();
+                showProgress();
                 LoginEntity loginEntity = new LoginEntity(etEmail.getText().toString(),etPassword.getText().toString());
                 RESTClientImplementation.normalLogin(loginEntity, new LoginEntity.RestClientInterface() {
                     @Override
-                    public void onLogin(String token, int code,VolleyError error) {
+                    public void onLogin(String token,int role ,int code,VolleyError error) {
                         hideProgress();
                         if(code == 200 && error == null) {
-                            // Toast.makeText(LoginActivity.this, "Token" + token, Toast.LENGTH_SHORT).show();
+                            Toast.makeText(LoginActivity.this, "Token" + token, Toast.LENGTH_SHORT).show();
                             UserDetails.setUserLoggedIn(LoginActivity.this, true);
                             UserDetails.setUserToken(LoginActivity.this, token);
                             goToActivity(HomeActivity.class);
@@ -51,8 +51,7 @@ public class LoginActivity extends AppCompatActivity {
                         }
                     }
 
-                },LoginActivity.this);*/
-                goToActivity(HomeActivity.class);
+                },LoginActivity.this);
             }
         });
 
@@ -70,6 +69,7 @@ public class LoginActivity extends AppCompatActivity {
     private void goToActivity(Class activity) {
         Intent intent;
         intent = new Intent(LoginActivity.this, activity);
+        intent.putExtra("role",UserDetails.getUserRole(LoginActivity.this));
         startActivity(intent);
     }
 

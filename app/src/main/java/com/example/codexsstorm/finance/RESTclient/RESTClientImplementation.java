@@ -24,10 +24,12 @@ public class RESTClientImplementation {
 
     public static void normalLogin(final LoginEntity loginEntity, final LoginEntity.RestClientInterface restClientInterface, final Context context){
         queue = VolleySingleton.getInstance(context).getRequestQueue();
-        String url = getAbsoluteUrl("/api/v1/participant/signin");
+        String url = getAbsoluteUrl("/login");
         JSONObject postParams = new JSONObject();
         try {
-            postParams.put("data",loginEntity.getParams());
+            postParams.put("username",loginEntity.getEmail());
+            postParams.put("password",loginEntity.getPassword());
+
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -40,7 +42,7 @@ public class RESTClientImplementation {
                 try {
                     int statusCode = response.getJSONObject("code").getInt("statusCode");
                     if(statusCode == 200){
-                        restClientInterface.onLogin(responseEntity.getToken(),200,null);
+                        restClientInterface.onLogin(responseEntity.getToken(),response.getJSONObject("data").getInt("role"),200,null);
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -51,7 +53,46 @@ public class RESTClientImplementation {
             @Override
             public void onErrorResponse(VolleyError error) {
                 Log.e("normal login","error");
-                restClientInterface.onLogin("",error.networkResponse.statusCode,new VolleyError());
+
+                restClientInterface.onLogin("",-1,error.networkResponse.statusCode,new VolleyError());
+            }
+        },30000,0);
+        queue.add(jsonBaseRequest);
+    }
+
+    public static void billsApi(final LoginEntity loginEntity, final LoginEntity.RestClientInterface restClientInterface, final Context context){
+        queue = VolleySingleton.getInstance(context).getRequestQueue();
+        String url = getAbsoluteUrl("/login");
+        JSONObject postParams = new JSONObject();
+        try {
+            postParams.put("username",loginEntity.getEmail());
+            postParams.put("password",loginEntity.getPassword());
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        JsonBaseRequest jsonBaseRequest = new JsonBaseRequest(Request.Method.POST, url, postParams, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                Log.e("Login Response",response.toString());
+                Gson gson = new Gson();
+                ResponseEntity responseEntity = gson.fromJson(response.toString(),ResponseEntity.class);
+                try {
+                    int statusCode = response.getJSONObject("code").getInt("statusCode");
+                    if(statusCode == 200){
+                        restClientInterface.onLogin(responseEntity.getToken(),response.getJSONObject("data").getInt("role"),200,null);
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.e("normal login","error");
+
+                restClientInterface.onLogin("",-1,error.networkResponse.statusCode,new VolleyError());
             }
         },30000,0);
         queue.add(jsonBaseRequest);
