@@ -50,32 +50,32 @@
             android:layout_marginLeft="20dp"
             android:orientation="vertical">
             <TextView
-                android:layout_width="60dp"
+                android:layout_width="80dp"
                 android:layout_height="wrap_content"
-                android:text="Name:"
+                android:text="Paid For:"
                 android:textSize="20dp"
                 android:textColor="@color/White"
                 />
             <TextView
-                android:layout_width="60dp"
+                android:layout_width="80dp"
                 android:layout_height="wrap_content"
-                android:text="Name:"
+                android:text="Amount:"
                 android:textSize="20dp"
                 android:textColor="@color/White"
                 android:layout_marginTop="30dp"
                 />
             <TextView
-                android:layout_width="60dp"
+                android:layout_width="80dp"
                 android:layout_height="wrap_content"
-                android:text="Name:"
+                android:text="DOB:"
                 android:textSize="20dp"
                 android:textColor="@color/White"
                 android:layout_marginTop="28dp"
                 />
             <TextView
-                android:layout_width="60dp"
+                android:layout_width="80dp"
                 android:layout_height="wrap_content"
-                android:text="Name:"
+                android:text="Reason:"
                 android:textSize="20dp"
                 android:textColor="@color/White"
                 android:layout_marginTop="28dp"
@@ -88,12 +88,13 @@
             android:layout_margin="20dp">
 
             <EditText
+                android:id="@+id/etPaidFor"
             android:layout_width="match_parent"
             android:layout_height="30dp"
-            android:background="@drawable/edit_text"
-            />
+            android:background="@drawable/edit_text" />
 
             <EditText
+                android:id="@+id/etAmount"
                 android:layout_width="match_parent"
                 android:layout_height="30dp"
                 android:layout_marginTop="25dp"
@@ -118,6 +119,7 @@
 
             </LinearLayout>
             <EditText
+                android:id="@+id/etReason"
                 android:layout_width="match_parent"
                 android:layout_height="30dp"
                 android:layout_marginTop="25dp"
@@ -132,17 +134,25 @@
         android:layout_height="50dp"
         android:layout_below="@+id/linearLayout"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="59dp"
+        android:layout_marginTop="33dp"
         android:background="@drawable/background_purple_button"
         android:gravity="center"
         android:text="Upload Bill"
         android:textColor="@color/White"
         android:textSize="20dp" />
 
-    <ImageView
-        android:id="@+id/ivBill"
-        android:layout_width="50dp"
+    <TextView
+        android:id="@+id/tvProceed"
+        android:layout_width="130dp"
         android:layout_height="50dp"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true" />
+        android:layout_alignStart="@+id/tvUploadBill"
+        android:layout_below="@+id/tvUploadBill"
+        android:layout_marginTop="19dp"
+        android:background="@drawable/background_purple_button"
+        android:gravity="center"
+        android:text="Proceed"
+        android:textColor="@color/White"
+        android:textSize="20dp" />
+
+
 </RelativeLayout>

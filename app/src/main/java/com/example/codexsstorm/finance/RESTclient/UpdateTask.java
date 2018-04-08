@@ -1,83 +1,105 @@
 package com.example.codexsstorm.finance.RESTclient;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
+import android.util.Log;
+import android.widget.Toast;
 
+import com.example.codexsstorm.finance.Activity.HomeActivity;
+import com.example.codexsstorm.finance.Activity.ReimbursementActivity;
+import com.example.codexsstorm.finance.Common.UserDetails;
 import com.example.codexsstorm.finance.Constants.Constants;
+import com.example.codexsstorm.finance.Entity.ReimbursementEntity;
+import com.google.gson.Gson;
+
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.mime.MultipartEntity;
+import org.apache.http.entity.mime.content.ByteArrayBody;
+import org.apache.http.entity.mime.content.StringBody;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.util.EntityUtils;
+import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.nio.charset.Charset;
 
 /**
  * Created by codexsstorm on 7/4/18.
  */
 
 public class UpdateTask extends AsyncTask<String, String,String>{
+
+    ReimbursementEntity reimbursementEntity ;
+
+    public UpdateTask(ReimbursementEntity reimbursementEntity) {
+        this.reimbursementEntity = reimbursementEntity;
+    }
+
     @Override
     protected String doInBackground(String... strings) {
-        String BOUNDRY = "==================================";
         HttpURLConnection conn = null;
         try {
-
-            // These strings are sent in the request body. They provide information about the file being uploaded
-            String token = "token : S13FMT99AR31ZXDE";
-            // This is the standard format for a multipart request
-            StringBuffer requestBody = new StringBuffer();
-            requestBody.append("--");
-            requestBody.append(BOUNDRY);
-            requestBody.append('\n');
-            requestBody.append(token);
-            requestBody.append('\n');
-            requestBody.append("bill :"+Constants.f);
-            requestBody.append('\n');
-            requestBody.append("--");
-            requestBody.append(BOUNDRY);
-            requestBody.append("--");
+           HttpClient httpclient = new DefaultHttpClient();
+            HttpPost httppost = new HttpPost(Constants.CAPTURE);
+            String token = UserDetails.getUserToken(reimbursementEntity.getContext());
+            Log.e("Token Tes : ",token);
+            MultipartEntity entity = new MultipartEntity();
+            ByteArrayOutputStream bos = new ByteArrayOutputStream();
+            byte data[] = null;
+            if (reimbursementEntity.getType()==2) {
 
 
-            // Make a connect to the server
-            URL url = new URL(Constants.CAPTURE);
-            conn = (HttpURLConnection) url.openConnection();
-
-            // Put the authentication details in the request
-            conn.setRequestProperty ("token","S13FMT99AR31ZXDE");
-
-            conn.setDoOutput(true);
-            conn.setDoInput(true);
-            conn.setUseCaches(false);
-            conn.setRequestMethod("POST");
-            conn.setRequestProperty("Content-Type", "multipart/form-data; boundary=" + BOUNDRY);
-
-            // Send the body
-            DataOutputStream dataOS = new DataOutputStream(conn.getOutputStream());
-            dataOS.writeBytes(requestBody.toString());
-            dataOS.flush();
-            dataOS.close();
-
-            // Ensure we got the HTTP 200 response code
-            int responseCode = conn.getResponseCode();
-            if (responseCode != 200) {
-                throw new Exception(String.format("Received the response code %d from the URL %s", responseCode, url));
+                Bitmap imageBitmap = (BitmapFactory.decodeFile(reimbursementEntity.getFilepath()));
+                if (imageBitmap != null) {
+                    imageBitmap.compress(Bitmap.CompressFormat.JPEG, 100, bos);
+                    data = bos.toByteArray();
+                   // Log.e("Checking", "in if");
+                    entity.addPart("bill", new ByteArrayBody(data, "image/jpeg", "test2.jpg"));
+                }
+            }
+            else if (reimbursementEntity.getType()==1) {
+                if (Constants.bit != null) {
+                    Constants.bit.compress(Bitmap.CompressFormat.JPEG, 100, bos);
+                    data = bos.toByteArray();
+                    Log.e("Checking", "in if");
+                    entity.addPart("bill", new ByteArrayBody(data, "image/jpeg", "test2.jpg"));
+                }
             }
 
-            // Read the response
-            InputStream is = conn.getInputStream();
-            ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            byte[] bytes = new byte[1024];
-            int bytesRead;
-            while((bytesRead = is.read(bytes)) != -1) {
-                baos.write(bytes, 0, bytesRead);
+
+            entity.addPart("token", new StringBody(token,"text/plain", Charset.forName("UTF-8")));
+            entity.addPart("paid_for", new StringBody(reimbursementEntity.getPaidFor(),"text/plain", Charset.forName("UTF-8")));
+            entity.addPart("total_amount", new StringBody(reimbursementEntity.getTotalAmount(),"text/plain", Charset.forName("UTF-8")));
+            entity.addPart("reason", new StringBody(reimbursementEntity.getReason(),"text/plain", Charset.forName("UTF-8")));
+            entity.addPart("dob", new StringBody(reimbursementEntity.getDOB(),"text/plain", Charset.forName("UTF-8")));
+
+
+            httppost.setEntity(entity);
+            HttpResponse resp = httpclient.execute(httppost);
+            HttpEntity resEntity = resp.getEntity();
+            String string= EntityUtils.toString(resEntity);
+            JSONObject parentObject = new JSONObject(string);
+            int code = parentObject.getInt("code");
+
+            Log.e("hgujyky", code+"");
+
+            if(code==200) {
+                Intent i = new Intent(reimbursementEntity.getContext(), HomeActivity.class);
+                reimbursementEntity.getContext().startActivity(i);
             }
-            byte[] bytesReceived = baos.toByteArray();
-            baos.close();
 
-            is.close();
-            String response = new String(bytesReceived);
-
+            else {
+                Toast.makeText(reimbursementEntity.getContext(),"Some Problem",Toast.LENGTH_SHORT).show();
+            }
             // TODO: Do something here to handle the 'response' string
 
         }catch (Exception e) {

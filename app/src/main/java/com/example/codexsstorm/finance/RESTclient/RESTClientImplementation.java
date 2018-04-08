@@ -41,8 +41,11 @@ public class RESTClientImplementation {
                 ResponseEntity responseEntity = gson.fromJson(response.toString(),ResponseEntity.class);
                 try {
                     int statusCode = response.getJSONObject("code").getInt("statusCode");
+                    Log.d("Status Code : ",statusCode+"");
+                    String token = response.getJSONObject("data").getString("token");
+                    int role = response.getJSONObject("data").getInt("role");
                     if(statusCode == 200){
-                        restClientInterface.onLogin(responseEntity.getToken(),response.getJSONObject("data").getInt("role"),200,null);
+                        restClientInterface.onLogin(token,role,200,null);
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
