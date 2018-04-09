@@ -11,8 +11,10 @@ import com.example.codexsstorm.finance.Constants.Constants;
 import com.example.codexsstorm.finance.Entity.BillCoverEntity;
 import com.example.codexsstorm.finance.Entity.BillDetailsEntity;
 import com.example.codexsstorm.finance.Entity.BillEntity;
+import com.example.codexsstorm.finance.Entity.BillUpdateEntity;
 import com.example.codexsstorm.finance.Entity.LoginEntity;
 import com.example.codexsstorm.finance.Entity.ResponseEntity;
+import com.example.codexsstorm.finance.Entity.TicketEntity;
 import com.google.gson.Gson;
 
 import org.json.JSONException;
@@ -104,6 +106,81 @@ public class RESTClientImplementation {
                 Log.e("normal login","error");
 
                // restClientInterface.onSuccess(x,new VolleyError());
+            }
+        },30000,0);
+        queue.add(jsonBaseRequest);
+    }
+    public static void UpdateBill(final BillUpdateEntity billEntity, final BillUpdateEntity.RestClientInterface restClientInterface, final Context context){
+        queue = VolleySingleton.getInstance(context).getRequestQueue();
+        String url = getAbsoluteUrl("/outflows");
+        JSONObject postParams = new JSONObject();
+        try {
+            postParams.put("token", UserDetails.getUserToken(context));
+            postParams.put("month",3);
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        Log.e("sup",postParams.toString());
+        JsonBaseRequest jsonBaseRequest = new JsonBaseRequest(Request.Method.POST, url, postParams, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                Log.e("Response",response.toString());
+                Gson gson = new Gson();
+                ResponseEntity responseEntity = gson.fromJson(response.toString(),ResponseEntity.class);
+                try {
+                    int statusCode = response.getJSONObject("code").getInt("statusCode");
+                    if(statusCode == 200){
+                        restClientInterface.onSucce(statusCode,null);
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.e("normal login","error");
+
+                restClientInterface.onSucce(error.networkResponse.statusCode,new VolleyError());
+            }
+        },30000,0);
+        queue.add(jsonBaseRequest);
+    }
+
+    public static void RaiseTickets(final TicketEntity.RestClientInterface restClientInterface, final Context context){
+        queue = VolleySingleton.getInstance(context).getRequestQueue();
+        String url = getAbsoluteUrl("/raise-ticket");
+        JSONObject postParams = new JSONObject();
+        try {
+            postParams.put("token", UserDetails.getUserToken(context));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        Log.e("sup",postParams.toString());
+        JsonBaseRequest jsonBaseRequest = new JsonBaseRequest(Request.Method.POST, url, postParams, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                Log.e("Response",response.toString());
+                Gson gson = new Gson();
+                ResponseEntity responseEntity = gson.fromJson(response.toString(),ResponseEntity.class);
+                try {
+                    int statusCode = response.getJSONObject("code").getInt("statusCode");
+                    if(statusCode == 200){
+                        restClientInterface.onSucce(statusCode,null);
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.e("normal login","error");
+
+                restClientInterface.onSucce(error.networkResponse.statusCode,new VolleyError());
             }
         },30000,0);
         queue.add(jsonBaseRequest);

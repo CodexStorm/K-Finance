@@ -87,7 +87,7 @@ public class ReimbursementActivity extends AppCompatActivity {
                 DatePickerDialog datePicker = new DatePickerDialog(ReimbursementActivity.this, new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(android.widget.DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-                        String date = String.valueOf(dayOfMonth) + "/" + String.valueOf(monthOfYear)
+                        String date = String.valueOf(dayOfMonth) + "/" + String.valueOf(monthOfYear+1)
                                 + "/" + String.valueOf(year);
                         etDate.setText(date);
 
@@ -100,9 +100,31 @@ public class ReimbursementActivity extends AppCompatActivity {
         tvProceed.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Validation();
                 if (captureflag == 1) {
-                    reimbursementEntity = new ReimbursementEntity(picturePath, etDate.getText().toString(), etPaidfor.getText().toString(), etReason.getText().toString(), etAmount.getText().toString(), type,ReimbursementActivity.this);
-                    new UpdateTask(reimbursementEntity).execute();
+                    AlertDialog.Builder builder;
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                        builder = new AlertDialog.Builder(ReimbursementActivity.this, android.R.style.Theme_Material_Dialog_Alert);
+                    } else {
+                        builder = new AlertDialog.Builder(ReimbursementActivity.this);
+                    }
+                    builder.setTitle("Delete entry")
+                            .setMessage("Are you sure the amount of the bill is Rs"+etAmount.getText())
+                            .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
+                                    reimbursementEntity = new ReimbursementEntity(picturePath, etDate.getText().toString(), etPaidfor.getText().toString(), etReason.getText().toString(), etAmount.getText().toString(), type,ReimbursementActivity.this);
+                                    new UpdateTask(reimbursementEntity).execute();
+                                }
+                            })
+                            .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
+                                    Toast.makeText(ReimbursementActivity.this,"Enter Amount Correctly",Toast.LENGTH_SHORT).show();
+
+                                }
+                            })
+                            .setIcon(android.R.drawable.ic_dialog_alert)
+                            .show();
+
                 }
                 else{
                     Toast.makeText(ReimbursementActivity.this,"invalid Request",Toast.LENGTH_SHORT).show();
@@ -110,6 +132,11 @@ public class ReimbursementActivity extends AppCompatActivity {
             }
 
         });
+    }
+
+    private void Validation() {
+        if(etReason.getText().length()<1||etPaidfor.getText().length()<1||etAmount.getText().length()<1||etDate.getText().length()<1)
+            captureflag = 0;
     }
 
     private void selectImage() {

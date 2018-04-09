@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -33,7 +33,7 @@
         </android.support.v7.widget.Toolbar>
 
     </android.support.design.widget.AppBarLayout>
-<RelativeLayout
+<android.support.design.widget.CoordinatorLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     >
@@ -46,21 +46,35 @@
         android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true"
         android:layout_gravity="bottom|end"
-        android:layout_marginBottom="22dp"
-        android:layout_marginEnd="29dp"
+        android:layout_marginBottom="60dp"
+        android:layout_marginEnd="11dp"
         android:src="@drawable/ic_upload_bill"
         app:backgroundTint="@color/colorAccent"
         app:elevation="6dp"
+        app:layout_anchor="@+id/rvMyBills"
+        app:layout_anchorGravity="right|bottom"
         app:pressedTranslationZ="12dp" />
-</RelativeLayout>
+
+
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rvMyBills"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginLeft="15dp"
-        android:layout_marginTop="70dp"
         android:layout_marginRight="15dp"
-        android:layout_marginBottom="90dp"
-        >
-    </android.support.v7.widget.RecyclerView>
+        android:layout_marginBottom="55dp"
+        android:layout_marginTop="70dp"></android.support.v7.widget.RecyclerView>
 </android.support.design.widget.CoordinatorLayout>
+    <TextView
+        android:id="@+id/ticket"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true"
+        android:background="#000"
+        android:text="Raise Tickets"
+        android:textAlignment="center"
+        android:textColor="#fff"
+        android:textSize="40dp" />
+</RelativeLayout>
+

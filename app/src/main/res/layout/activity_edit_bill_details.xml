@@ -22,7 +22,7 @@
                 android:id="@+id/title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Bill Details"
+                android:text="Edit Details"
                 android:textSize="40dp"
                 android:textColor="#fff"
                 android:textAlignment="center"/>
@@ -150,23 +150,23 @@
                     android:layout_alignLeft="@+id/tvBillid"
                     android:layout_alignStart="@+id/tvBillid" />
 
-                <TextView
+                <EditText
                     android:id="@+id/Reason"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_alignLeft="@+id/tvBillAmount"
-                    android:textColor="#000"
-                    android:layout_alignStart="@+id/tvBillAmount"
-                    android:layout_alignTop="@+id/tvCategory" />
+                    android:layout_alignBaseline="@+id/tvCategory"
+                    android:layout_alignBottom="@+id/tvCategory"
+                    android:layout_toEndOf="@+id/tvBillAmount"
+                    android:textColor="#000" />
 
-                <TextView
+                <EditText
                     android:id="@+id/tvdob"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_alignLeft="@+id/Reason"
-                    android:textColor="#000"
+                    android:layout_alignBaseline="@+id/tvType"
+                    android:layout_alignBottom="@+id/tvType"
                     android:layout_alignStart="@+id/Reason"
-                    android:layout_alignTop="@+id/tvType" />
+                    android:textColor="#000" />
 
                 <TextView
                     android:id="@+id/tvBilltype"
@@ -177,22 +177,23 @@
                     android:layout_alignStart="@+id/tvdob"
                     android:layout_alignTop="@+id/tvMaker"/>
 
-                <TextView
+                <EditText
                     android:id="@+id/tvUplaodDate"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_alignLeft="@+id/tvBilltype"
-                    android:textColor="#000"
-                    android:layout_alignStart="@+id/tvBilltype"
-                    android:layout_alignTop="@+id/tvSpecification" />
-                <TextView
+                    android:layout_alignBaseline="@+id/tvSpecification"
+                    android:layout_alignBottom="@+id/tvSpecification"
+                    android:layout_alignParentEnd="true"
+                    android:layout_toEndOf="@+id/tvBilltype"
+                    android:textColor="#000" />
+
+                <EditText
                     android:id="@+id/tvPaidFor"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_toRightOf="@+id/tvhAssetMake"
-                    android:layout_below="@+id/Reason"
-                    android:layout_alignStart="@+id/Reason"
-                    android:layout_marginTop="20dp"/>
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:layout_toEndOf="@+id/tvBilltype" />
 
                 <TextView
                     android:id="@+id/tvhAssetMake"
@@ -209,28 +210,15 @@
             </RelativeLayout>
 
             <TextView
-                android:id="@+id/tvViewBill"
+                android:id="@+id/tvProceed"
                 android:layout_width="130dp"
                 android:layout_height="50dp"
-                android:layout_alignStart="@+id/tvEditBill"
                 android:layout_below="@+id/rlDetails"
-                android:layout_marginTop="11dp"
-                android:background="@drawable/background_purple_button"
-                android:gravity="center"
-                android:text="View Bill"
-                android:textColor="@color/White"
-                android:textSize="20dp" />
-
-            <TextView
-                android:id="@+id/tvEditBill"
-                android:layout_width="130dp"
-                android:layout_height="50dp"
-                android:layout_below="@+id/tvViewBill"
                 android:layout_centerHorizontal="true"
-                android:layout_marginTop="12dp"
+                android:layout_marginTop="34dp"
                 android:background="@drawable/background_purple_button"
                 android:gravity="center"
-                android:text="Edit Bill"
+                android:text="Proceed"
                 android:textColor="@color/White"
                 android:textSize="20dp" />
         </RelativeLayout>

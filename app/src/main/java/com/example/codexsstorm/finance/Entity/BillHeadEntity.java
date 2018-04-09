@@ -5,14 +5,14 @@ package com.example.codexsstorm.finance.Entity;
  */
 
 public class BillHeadEntity {
-    BillCoverEntity month;
-    int balance;
+    BillCoverEntity month = null;
+    float balance;
 
-    public int getBalance() {
+    public float getBalance() {
         return balance;
     }
 
-    public void setBalance(int balance) {
+    public void setBalance(float balance) {
         this.balance = balance;
     }
 
